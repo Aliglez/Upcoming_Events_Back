@@ -11,8 +11,17 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping(path = "${api-endpoint}")
 public class EventImageController {
 
+    EventImageStorageService imageStorage;
+    
+
+    public EventImageController(EventImageStorageService imageStorage) {
+        this.imageStorage = imageStorage;
+    }
+
+
     @PostMapping(path = "/images")
     ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file) {
+            imageStorage.storeFile(file);
         return ResponseEntity.status(201).body("Saved image");
     }
 }
